@@ -1,0 +1,34 @@
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+<section class="msn">
+        <input type="text" class="title" name="title" value="title">
+        <textarea name="content" class="content">content</textarea>
+        <input type="button" class="submit_msn" value="提交">
+    </section>
+    <script>
+    $(function(){
+        $(".submit_msn").on("click",function(){
+            var url = "/send_mail.php";
+            var data = {};
+            data.subject = $(".title").val();
+            data.body = $(".content").val();
+            console.log(data)
+            ajaxPost(url,JSON.stringify(data))
+        })
+    })
+    function ajaxPost(url,data){
+        $.ajax({
+            type:'post',
+            dataType: "json",
+            data: data,
+            url:url,
+            success: function (data) {
+                if(data.code==0){
+                    alert("您的留言已经提交成功，我们将尽快答复您！")
+                }else{
+                    alert("好像服务器出问题了呢T_T，您还是直接电话联系我们吧！")
+                }
+            },
+            error: function (data) { alert("服务器不支持发送邮件") }
+        });
+    }
+    </script>
